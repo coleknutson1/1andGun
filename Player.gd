@@ -11,7 +11,14 @@ func _process(delta: float) -> void:
 
 func _on_FireTimer_timeout() -> void:
 	fire()
+	if GlobalValues.doubleFireEnabled:
+		$DoubleFireTimer.start()
+		print("DOUBLE")
 	$FireTimer.start(GlobalValues.fireTimer)
+	
+func _on_DoubleFireTimer_timeout() -> void:
+	fire()
+	$DoubleFireTimer.stop()
 	
 func fire():
 	var instance = bulletScene.instance()
@@ -20,3 +27,6 @@ func fire():
 	var target = get_global_mouse_position()
 	var direction_to_mouse = instance.global_position.direction_to(target).normalized()
 	instance.set_direction(direction_to_mouse)
+
+
+

@@ -5,13 +5,16 @@ var enemyScene = load("res://Enemy.tscn")
 
 func _ready():
 	generate_enemy()
-
+	$EnemyGenerationTimer.start(GlobalValues.enemyGeneratedEveryXSecondsTimer)
+	
 func generateRandomNumberGivenRange(start:float,end:float):
 	rng.randomize()
 	return ceil(rng.randf_range(start, end))
 	
 func _on_EnemyGenerationTimer_timeout() -> void:
+	$EnemyGenerationTimer.stop()	
 	generate_enemy()
+	$EnemyGenerationTimer.start(GlobalValues.enemyGeneratedEveryXSecondsTimer)
 	
 func generate_enemy():
 	var enemyVector2 := get_new_enemy_coordinates()
@@ -44,3 +47,7 @@ func spawn_enemy(coordinates:Vector2) -> void:
 	var instance = enemyScene.instance()
 	get_tree().root.get_node("Root").add_child(instance)
 	instance.global_position = coordinates
+
+
+func _on_IncreaseEnemyGenSpeedTimer_timeout() -> void:
+	GlobalValues.enemyGeneratedEveryXSecondsTimer -= .1

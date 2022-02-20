@@ -19,3 +19,5 @@ func _process(delta: float) -> void:
 		get_tree().paused = !get_tree().paused
 		if get_tree().paused:
 			visible = true
+	if Input.is_action_just_pressed("f11"):
+		OS.window_fullscreen = !OS.window_fullscreen

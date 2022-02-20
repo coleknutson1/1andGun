@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://turret.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://PauseMenu.gd" type="Script" id=5]
 [ext_resource path="res://UpgradeList.gd" type="Script" id=6]
 [ext_resource path="res://FireSpeedLabel.gd" type="Script" id=7]
+[ext_resource path="res://CurrentMoney.gd" type="Script" id=8]
+[ext_resource path="res://EnemyGenTimer.gd" type="Script" id=9]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 16.0
@@ -28,10 +30,17 @@ texture = ExtResource( 1 )
 wait_time = 2.0
 autostart = true
 
+[node name="DoubleFireTimer" type="Timer" parent="Player"]
+wait_time = 0.417
+
 [node name="EnemyManager" type="Node" parent="."]
 script = ExtResource( 4 )
 
 [node name="EnemyGenerationTimer" type="Timer" parent="EnemyManager"]
+wait_time = 1.5
+
+[node name="IncreaseEnemyGenSpeedTimer" type="Timer" parent="EnemyManager"]
+wait_time = 30.0
 autostart = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -61,11 +70,14 @@ margin_left = 340.0
 margin_top = 191.0
 margin_right = -426.0
 margin_bottom = -169.0
-items = [ "Increase Turret Speed", null, false ]
+items = [ "Increase Turret Speed", null, false, "Double Fire $25", null, false ]
 allow_reselect = true
 script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="FireSpeedLabel" type="RichTextLabel" parent="CanvasLayer"]
+[node name="CurrentMoney" type="RichTextLabel" parent="CanvasLayer"]
 pause_mode = 2
 margin_left = 22.0
 margin_top = 12.0
@@ -73,11 +85,39 @@ margin_right = 195.0
 margin_bottom = 59.0
 text = "test
 "
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FireSpeedLabel2" type="RichTextLabel" parent="CanvasLayer"]
+pause_mode = 2
+margin_left = 23.0
+margin_top = 35.0
+margin_right = 196.0
+margin_bottom = 82.0
+text = "test
+"
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="EnemyGenTimer" type="RichTextLabel" parent="CanvasLayer"]
+pause_mode = 2
+margin_left = 23.0
+margin_top = 56.0
+margin_right = 196.0
+margin_bottom = 103.0
+text = "test
+"
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="timeout" from="Player/FireTimer" to="Player" method="_on_FireTimer_timeout"]
+[connection signal="timeout" from="Player/DoubleFireTimer" to="Player" method="_on_DoubleFireTimer_timeout"]
 [connection signal="timeout" from="EnemyManager/EnemyGenerationTimer" to="EnemyManager" method="_on_EnemyGenerationTimer_timeout"]
+[connection signal="timeout" from="EnemyManager/IncreaseEnemyGenSpeedTimer" to="EnemyManager" method="_on_IncreaseEnemyGenSpeedTimer_timeout"]
 [connection signal="item_selected" from="CanvasLayer/PauseMenu/UpgradeList" to="CanvasLayer/PauseMenu/UpgradeList" method="_on_UpgradeList_item_selected"]
