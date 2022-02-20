@@ -49,5 +49,5 @@ func spawn_enemy(coordinates:Vector2) -> void:
 	instance.global_position = coordinates
 
 
-func _on_IncreaseEnemyGenSpeedTimer_timeout() -> void:
+func _IncreaseEnemyGenSpeedTimer() -> void:
 	GlobalValues.enemyGeneratedEveryXSecondsTimer -= .1
